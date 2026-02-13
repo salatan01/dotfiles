@@ -1,0 +1,180 @@
+// #######################################################################################
+// NIRI CONFIGURATION (NixOS Fixed)
+// #######################################################################################
+
+// --- AUTOSTART ---
+// 1. CRITICAL FIX FOR NIXOS:
+spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP=niri"
+
+// 2. XWayland Support (Must be installed on NixOS)
+spawn-at-startup "xwayland-satellite"
+
+// 3. Standard Apps
+spawn-at-startup "hypridle"
+spawn-at-startup "waybar"
+spawn-at-startup "hyprpaper"
+spawn-at-startup "stretchly"
+
+// --- ENVIRONMENT VARIABLES ---
+environment {
+    HYPRCURSOR_THEME "Bibata-Modern-Classic"
+    HYPRCURSOR_SIZE "24"
+    XCURSOR_THEME "Bibata-Modern-Classic"
+    XCURSOR_SIZE "24"
+    QT_QPA_PLATFORM "wayland"
+}
+
+// --- INPUT ---
+input {
+    keyboard {
+        xkb {
+            layout "us"
+        }
+    }
+
+    touchpad {
+        // Just writing 'tap' enables it.
+        tap
+        // To disable natural-scroll, simply do not include the line "natural-scroll".
+        // natural-scroll 
+        
+        accel-profile "flat"
+    }
+
+    mouse {
+        accel-profile "flat"
+        accel-speed -0.5
+    }
+
+    // This is a flag, it takes no arguments.
+    // Uncommenting it enables focus-follows-mouse.
+    // focus-follows-mouse
+}
+
+// --- LOOK AND FEEL ---
+layout {
+    gaps 10
+    center-focused-column "never"
+
+    focus-ring {
+        width 3
+        active-color "#00ff00ee"
+        inactive-color "#595959aa"
+    }
+    
+    border {
+        off
+    }
+
+    default-column-width { proportion 0.5; }
+    
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+    }
+}
+
+// --- WINDOW RULES ---
+window-rule {
+    geometry-corner-radius 15
+    clip-to-geometry true
+}
+
+window-rule {
+    match is-active=false
+    opacity 0.8
+}
+
+// --- ANIMATIONS ---
+animations {
+    slowdown 1.0
+}
+
+// --- KEYBINDINGS ---
+binds {
+    // Note: "Mod" defaults to Super (Windows Key). We use it directly below.
+
+    // -- App Launches --
+    Mod+Q { spawn "ghostty"; }
+    Mod+E { spawn "nemo"; }
+    Mod+A { spawn "hyprlauncher"; } 
+    Mod+B { spawn "brave"; }
+
+    // -- Window Management --
+    Mod+C { close-window; }
+    Mod+V { toggle-window-floating; }
+    Mod+F { maximize-column; }
+    Mod+Shift+F { fullscreen-window; }
+
+    // -- Session --
+    Mod+Return { spawn "hyprlock"; }
+    Mod+Alt+L { spawn "wlogout"; }
+    Mod+Shift+E { quit; }
+
+    // -- Navigation --
+    Mod+H { focus-column-left; }
+    Mod+L { focus-column-right; }
+    Mod+K { focus-window-up; }
+    Mod+J { focus-window-down; }
+
+    // -- Move Windows --
+    Mod+Shift+H { move-column-left; }
+    Mod+Shift+L { move-column-right; }
+    Mod+Shift+K { move-window-up; }
+    Mod+Shift+J { move-window-down; }
+
+    // -- Workspaces --
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+5 { focus-workspace 5; }
+    Mod+6 { focus-workspace 6; }
+    Mod+7 { focus-workspace 7; }
+    Mod+8 { focus-workspace 8; }
+    Mod+9 { focus-workspace 9; }
+    Mod+0 { focus-workspace 10; }
+
+    Mod+Shift+1 { move-column-to-workspace 1; }
+    Mod+Shift+2 { move-column-to-workspace 2; }
+    Mod+Shift+3 { move-column-to-workspace 3; }
+    Mod+Shift+4 { move-column-to-workspace 4; }
+    Mod+Shift+5 { move-column-to-workspace 5; }
+    Mod+Shift+6 { move-column-to-workspace 6; }
+    Mod+Shift+7 { move-column-to-workspace 7; }
+    Mod+Shift+8 { move-column-to-workspace 8; }
+    Mod+Shift+9 { move-column-to-workspace 9; }
+    Mod+Shift+0 { move-column-to-workspace 10; }
+
+    Mod+D { focus-workspace-down; }
+
+    // -- Special Niri Features --
+    Mod+Space { center-column; }
+    Mod+BracketLeft { consume-window-into-column; }
+    Mod+BracketRight { expel-window-from-column; }
+    
+    Mod+Minus { set-column-width "-10%"; }
+    Mod+Equal { set-column-width "+10%"; }
+    Mod+R { switch-preset-column-width; }
+
+    // -- Mouse --
+    Mod+WheelScrollDown       { focus-workspace-down; }
+    Mod+WheelScrollUp         { focus-workspace-up; }
+    Mod+Shift+WheelScrollDown { focus-column-right; }
+    Mod+Shift+WheelScrollUp   { focus-column-left; }
+    
+    // -- Media Keys --
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "-l" "1" "@DEFAULT_AUDIO_SINK@" "5%+"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"; }
+    XF86AudioMute        allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
+    XF86AudioMicMute     allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
+    
+    XF86MonBrightnessUp   allow-when-locked=true { spawn "brightnessctl" "-e4" "-n2" "set" "5%+"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "-e4" "-n2" "set" "5%-"; }
+
+    XF86AudioNext  allow-when-locked=true { spawn "playerctl" "next"; }
+    XF86AudioPause allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    XF86AudioPlay  allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    XF86AudioPrev  allow-when-locked=true { spawn "playerctl" "previous"; }
+}

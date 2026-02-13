@@ -1,0 +1,13 @@
+# ────────────── Fonts ──────────────
+font-family = "JetBrainsMono Nerd Font"
+font-size = 13
+font-feature = calt
+font-feature = liga
+
+# ────────────── Behavior ──────────────
+mouse-hide-while-typing = true
+scrollback-limit = 10000
+
+theme = Night Owl
+# theme = Rapture
+ #theme = Operator Mono Dark

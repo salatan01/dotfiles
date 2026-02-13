@@ -1,0 +1,190 @@
+* {
+  border: none;
+  border-radius: 0;
+  font-family: "JetBrainsMono Nerd Font";
+  font-weight: 700;
+  font-size: 14px;
+  min-height: 0;
+}
+
+window#waybar {
+  background: transparent;
+  color: #cdd6f4;
+}
+
+tooltip {
+  background: #1e1e2e;
+  border-radius: 8px;
+  border: 1px solid #8aadf4;
+}
+
+/* 
+   Shared style for all modules with background
+*/
+#custom-weather,
+#network,
+#cpu,
+#memory,
+#temperature,
+#clock,
+#pulseaudio,
+#backlight,
+#battery,
+#niri-language,
+#tray,
+#custom-power {
+  background: #1e1e2e;
+  padding: 2px 12px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+/* --- WORKSPACES --- */
+
+#workspaces {
+  background: #1e1e2e;
+  border-radius: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 2px 6px;
+}
+
+#workspaces button {
+  padding: 2px 8px;
+  color: #45475a;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+/* Active workspace (currently focused) - Blue */
+#workspaces button.active {
+  color: #89b4fa;
+  background: #313244;
+}
+
+/* Occupied workspace (has windows but not active) - Yellow */
+#workspaces button.occupied {
+  color: #f9e2af;
+  background: transparent;
+}
+
+/* Empty workspace - Gray (default) */
+#workspaces button.default {
+  color: #45475a;
+  background: transparent;
+}
+
+#workspaces button:hover {
+  background: #313244;
+  box-shadow: none;
+}
+
+/* --- MODULES SPECIFIC STYLING --- */
+
+#network {
+  border-radius: 10px 0px 0px 10px;
+  margin-left: 10px;
+  color: #a6e3a1;
+}
+
+#cpu {
+  border-radius: 0px;
+  margin: 5px 0px;
+  color: #89b4fa;
+}
+
+#temperature {
+  border-radius: 0px;
+  margin: 5px 0px;
+  color: #fab387;
+}
+
+#temperature.critical {
+  color: #f38ba8;
+}
+
+#memory {
+  border-radius: 0px 10px 10px 0px;
+  margin-right: 5px;
+  color: #f38ba8;
+}
+
+#custom-weather {
+  border-radius: 10px;
+  margin-right: 5px;
+  margin-left: 10px;
+}
+
+/* FIXED: Keyboard/Language indicator with explicit background */
+#niri-language {
+  background: #1e1e2e;  /* Explicitly set background */
+  border-radius: 10px 0px 0px 10px;
+  margin-right: 0px;
+  margin-left: 5px;
+  padding: 2px 12px;     /* Explicit padding for consistency */
+  margin-top: 5px;
+  margin-bottom: 5px;
+  color: #f9e2af;
+}
+
+#backlight {
+  border-radius: 0px;
+  margin: 5px 0px;
+  color: #f9e2af;
+}
+
+#pulseaudio {
+  border-radius: 0px;
+  margin: 5px 0px;
+  color: #a6e3a1;
+}
+
+#battery {
+  border-radius: 0px;
+  margin: 5px 0px;
+  color: #a6e3a1;
+}
+
+#battery.charging, #battery.plugged {
+    color: #fab387;
+}
+
+#battery.critical:not(.charging) {
+    color: #f38ba8;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+@keyframes blink {
+    to {
+        background-color: #bf5329;
+        color: #f38ba8;
+    }
+}
+
+#clock {
+  color: #89b4fa;
+  border-radius: 0px 10px 10px 0px;
+  margin-left: 0px;
+  margin-right: 5px;
+}
+
+#tray {
+  border-radius: 10px;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+#custom-power {
+  color: #f38ba8;
+  background: #1e1e2e;
+  border-radius: 10px;
+  margin-right: 10px;
+  margin-left: 5px;
+  padding-right: 16px;
+  padding-left: 10px;
+}
+
