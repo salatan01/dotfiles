@@ -15,6 +15,9 @@ spawn-at-startup "waybar"
 spawn-at-startup "hyprpaper"
 spawn-at-startup "stretchly"
 
+spawn-at-startup "eww-notification-daemon"
+spawn-at-startup "eww" "open" "notification-window"
+
 // --- ENVIRONMENT VARIABLES ---
 environment {
     HYPRCURSOR_THEME "Bibata-Modern-Classic"
