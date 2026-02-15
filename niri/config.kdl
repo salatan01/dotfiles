@@ -4,6 +4,10 @@
 
 // --- AUTOSTART ---
 // 1. CRITICAL FIX FOR NIXOS:
+
+// Start Dank Material Shell
+//spawn-at-startup "dms" "run"
+
 spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP=niri"
 
 // 2. XWayland Support (Must be installed on NixOS)
@@ -11,12 +15,10 @@ spawn-at-startup "xwayland-satellite"
 
 // 3. Standard Apps
 spawn-at-startup "hypridle"
-spawn-at-startup "waybar"
+// spawn-at-startup "waybar"
 spawn-at-startup "hyprpaper"
 spawn-at-startup "stretchly"
 
-spawn-at-startup "eww-notification-daemon"
-spawn-at-startup "eww" "open" "notification-window"
 
 // --- ENVIRONMENT VARIABLES ---
 environment {
@@ -46,7 +48,7 @@ input {
 
     mouse {
         accel-profile "flat"
-        accel-speed -0.5
+        accel-speed 0.5
     }
 
     // This is a flag, it takes no arguments.
@@ -101,8 +103,10 @@ binds {
     // -- App Launches --
     Mod+Q { spawn "ghostty"; }
     Mod+E { spawn "nemo"; }
-    Mod+A { spawn "hyprlauncher"; } 
+    Mod+A { spawn "wofi" "--show" "drun"; } 
     Mod+B { spawn "brave"; }
+  // Mod+ { spawn "obsidian"; } 
+
 
     // -- Window Management --
     Mod+C { close-window; }
@@ -115,17 +119,28 @@ binds {
     Mod+Alt+L { spawn "wlogout"; }
     Mod+Shift+E { quit; }
 
-    // -- Navigation --
+    // -- NEW REQUESTED BINDINGS --
+    Mod+Alt+K { show-hotkey-overlay; }
+    Mod+O     { toggle-overview; }
+
+    
+    // -- Navigation (Columns) --
     Mod+H { focus-column-left; }
     Mod+L { focus-column-right; }
-    Mod+K { focus-window-up; }
-    Mod+J { focus-window-down; }
+    
+    // -- Navigation (Workspaces - Requested Changes) --
+    // Niri calls this "focus-workspace-down/up"
+    Mod+J { focus-workspace-down; }
+    Mod+K { focus-workspace-up; }
 
-    // -- Move Windows --
+    // -- Move Windows (Columns) --
     Mod+Shift+H { move-column-left; }
     Mod+Shift+L { move-column-right; }
-    Mod+Shift+K { move-window-up; }
-    Mod+Shift+J { move-window-down; }
+    
+    // -- Move Windows (Workspaces) --
+    // You might want these to move windows to the workspace up/down
+    Mod+Shift+J { move-column-to-workspace-down; }
+    Mod+Shift+K { move-column-to-workspace-up; }
 
     // -- Workspaces --
     Mod+1 { focus-workspace 1; }
@@ -150,15 +165,23 @@ binds {
     Mod+Shift+9 { move-column-to-workspace 9; }
     Mod+Shift+0 { move-column-to-workspace 10; }
 
+    // -- "Open Empty Workspace" --
+    // In Niri, focusing down acts as going to the next workspace.
     Mod+D { focus-workspace-down; }
 
     // -- Special Niri Features --
     Mod+Space { center-column; }
-    Mod+BracketLeft { consume-window-into-column; }
-    Mod+BracketRight { expel-window-from-column; }
+    // -- Consume/Expel (Smart Column Management) --
+    Mod+Left  { consume-or-expel-window-left; }
+    Mod+Right { consume-or-expel-window-right; }
     
-    Mod+Minus { set-column-width "-10%"; }
-    Mod+Equal { set-column-width "+10%"; }
+
+    Mod+Y { set-column-width "-10%"; }
+    // Mod+O was duplicated above for Obsidian. 
+    // Commented out to prevent conflict. Suggested: Mod+U or Mod+I
+    // Mod+O { set-column-width "+10%"; } 
+    Mod+U { set-column-width "+10%"; } 
+
     Mod+R { switch-preset-column-width; }
 
     // -- Mouse --
@@ -181,3 +204,6 @@ binds {
     XF86AudioPlay  allow-when-locked=true { spawn "playerctl" "play-pause"; }
     XF86AudioPrev  allow-when-locked=true { spawn "playerctl" "previous"; }
 }
+
+include "dms/cursor.kdl"
+
