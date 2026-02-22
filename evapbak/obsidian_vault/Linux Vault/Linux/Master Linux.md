@@ -1,0 +1,1 @@
+So i order to master Linux I need a [[Roadmap]] where i can find all the necessary resources to reach my goal. 

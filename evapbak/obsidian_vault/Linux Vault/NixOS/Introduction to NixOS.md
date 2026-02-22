@@ -1,0 +1,1 @@
+#### NixOS is a linux distro that aims to be a declarative and 
